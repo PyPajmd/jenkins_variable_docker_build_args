@@ -1,3 +1,4 @@
+// git config --global alias.add-commit '!git add -A && git commit'
 node {
 def JENKINS_ID = """${sh(
             returnStdout: true,
@@ -23,6 +24,21 @@ pipeline {
     }
 //    agent any
 
+    // def STUFF = "stuffy"
+    // agent {
+    //     dockerfile {
+    //         filename 'Dockerfile'
+    //         additionalBuildArgs "--build-arg uid=$env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
+    //         args ' -u jenkins \
+    //         -e "HOME=/var/lib/jenkins/workspace" \
+    //         -v /var/run/docker.sock:/var/run/docker.sock \
+    //         -v /var/lib/jenkins/workspace:/var/lib/jenkins/workspace \
+    //         -p 3000:3000 -p 5000:5000' 
+    //     }    
+    // }
+
+    stages {
+
     def STUFF = "stuffy"
     agent {
         dockerfile {
@@ -35,8 +51,6 @@ pipeline {
             -p 3000:3000 -p 5000:5000' 
         }    
     }
-
-    stages {
         stage (test) {
             steps {
                 script {
