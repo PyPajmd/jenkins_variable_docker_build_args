@@ -23,8 +23,8 @@ pipeline {
     }
 //    agent any
 
+    def STUFF = "stuffy"
     agent {
-        def STUFF = "stuffy"
         dockerfile {
             filename 'Dockerfile'
             additionalBuildArgs "--build-arg uid=$env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
