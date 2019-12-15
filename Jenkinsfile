@@ -26,7 +26,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
-            additionalBuildArgs "--build-arg uid=env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
+            additionalBuildArgs "--build-arg uid=$env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
             args ' -u jenkins \
             -e "HOME=/var/lib/jenkins/workspace" \
             -v /var/run/docker.sock:/var/run/docker.sock \
