@@ -22,9 +22,8 @@ pipeline {
                 script: 'printf "$(getent group docker | cut -d: -f3)"'
             )}""" 
     }
-//    agent any
+    agent any
 
-    // def STUFF = "stuffy"
     // agent {
     //     dockerfile {
     //         filename 'Dockerfile'
@@ -38,20 +37,18 @@ pipeline {
     // }
 
     stages {
-
-
-        agent {
-            dockerfile {
-                filename 'Dockerfile'
-                additionalBuildArgs "--build-arg uid=$env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
-                args ' -u jenkins \
-                -e "HOME=/var/lib/jenkins/workspace" \
-                -v /var/run/docker.sock:/var/run/docker.sock \
-                -v /var/lib/jenkins/workspace:/var/lib/jenkins/workspace \
-                -p 3000:3000 -p 5000:5000' 
-            }    
-        }
         stage (test) {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    additionalBuildArgs "--build-arg uid=$env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
+                    args ' -u jenkins \
+                    -e "HOME=/var/lib/jenkins/workspace" \
+                    -v /var/run/docker.sock:/var/run/docker.sock \
+                    -v /var/lib/jenkins/workspace:/var/lib/jenkins/workspace \
+                    -p 3000:3000 -p 5000:5000' 
+                }    
+            }
             steps {
                 script {
                     // some_var = sh(returnStdout: true, script: 'printf "XXXX$(id jenkins)YYYY"')
