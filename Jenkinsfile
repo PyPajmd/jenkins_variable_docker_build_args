@@ -6,27 +6,27 @@ def JENKINS_ID = """${sh(
 }
         
 pipeline {
-environment {
-    // Using returnStdout
-    JENKINS_UID = """${sh(
-            returnStdout: true,
-            script: 'printf "$(id -u jenkins)"'
-        )}""" 
-    JENKINS_GID = """${sh(
-            returnStdout: true,
-            script: 'printf "$(id -g jenkins)"'
-        )}""" 
-    DOCKER_GID = """${sh(
-            returnStdout: true,
-            script: 'printf "$(getent group docker | cut -d: -f3)"'
-        )}""" 
-}
+    environment {
+        // Using returnStdout
+        JENKINS_UID = """${sh(
+                returnStdout: true,
+                script: 'printf "$(id -u jenkins)"'
+            )}""" 
+        JENKINS_GID = """${sh(
+                returnStdout: true,
+                script: 'printf "$(id -g jenkins)"'
+            )}""" 
+        DOCKER_GID = """${sh(
+                returnStdout: true,
+                script: 'printf "$(getent group docker | cut -d: -f3)"'
+            )}""" 
+    }
 //    agent any
 
     agent {
         dockerfile {
             filename 'Dockerfile'
-            additionalBuildArgs "--build-arg uid=${env.JENKINS_UID} --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
+            additionalBuildArgs "--build-arg uid=env.JENKINS_UID --build-arg gid=${env.JENKINS_GID} --build-arg docker_gid=${env.DOCKER_GID}" 
             args ' -u jenkins \
             -e "HOME=/var/lib/jenkins/workspace" \
             -v /var/run/docker.sock:/var/run/docker.sock \
